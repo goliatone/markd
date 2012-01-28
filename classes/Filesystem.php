@@ -51,6 +51,7 @@ class Filesystem {
 	
 	public static function write_file($file = '', $content = '', $mode = 'w') {
 		if ($file == '') { return FALSE; }
+		$file = strtolower($file);
 
 		global $filesWritten;
 		$filesWritten++;

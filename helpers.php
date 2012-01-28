@@ -62,7 +62,7 @@ class Helpers {
 	}
 	
 	public static function sanitize_slug($toFilterString) {
-		$filteredString = $toFilterString;
+		$filteredString = trim($toFilterString);
 		$filteredString = str_replace(' ', '-', $filteredString);
 		return $filteredString;
 	}

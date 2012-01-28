@@ -7,6 +7,7 @@ class Content {
 	public $raw_content;
 	public $id;
 	public $title;
+	public $raw_date;
 	public $date;
 	public $published;
 	public $html_content;
@@ -49,7 +50,9 @@ class Content {
 		$this->id            = md5($heading['Date']);
 		$this->title         = trim($heading['Title']);
 		$this->date          = trim($heading['Date']);
+		$this->raw_date      = trim($heading['Date']);
 		$this->published     = trim($heading['Published']);
+		$this->permalink     = '/' . Helpers::sanitize_slug($heading['Title']) . '.html';
 		$this->raw_content   = trim(substr($this->raw_content, ($content_start + 4), strlen($this->raw_content)));
 		if (!empty($heading['Category'])) { $this->categories = $heading['Category']; }
 		if (Helpers::feature_enabled('MARKD_DEBUG')) { $this->raw_content  .= "\n\n" . $this->content_file; }

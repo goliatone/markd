@@ -6,7 +6,7 @@
 			if (is_array($content->categories) && !empty($content->categories)) {
 					echo ' in ';
 					foreach ($content->categories as $category) {
-						echo $category;
+						echo '<a href="' . Theme::get_cat_link($category) . '">' . $category . '</a>';
 					}
 			}
 		?>

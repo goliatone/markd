@@ -44,13 +44,21 @@ class Markd {
 
 		while ($currently_processing) {
 			$blogPosts = array();
-			$get_posts = $this->get_posts((POSTS_PER_PAGE * $this->currentPage), POSTS_PER_PAGE);
+			if (empty($args)) {
+				$get_posts = $this->get_posts((POSTS_PER_PAGE * $this->currentPage), POSTS_PER_PAGE);
+			} else {
+				$get_posts = $this->get_posts((POSTS_PER_PAGE * $this->currentPage), POSTS_PER_PAGE, $args);
+			}
 
 			$blogPosts = $get_posts['blogPosts'];
 			$processed_count = $processed_count + count($blogPosts);
 
-			if (count($blogPosts) < POSTS_PER_PAGE || $processed_count == Posts::get_total_post_count()) { $currently_processing = FALSE; }		// Keep loop going until we reach a full page of posts
-			$this->write_post_list($this->currentPage, $blogPosts);
+			if (empty($args)) {
+				if (count($blogPosts) < POSTS_PER_PAGE || $processed_count == Posts::get_total_post_count()) { $currently_processing = FALSE; }		// Keep loop going until we reach a full page of posts
+			} elseif (isset($args['category'])) {
+				if (count($blogPosts) < POSTS_PER_PAGE || $processed_count == $this->categoryList[$args['category']]) { $currently_processing = FALSE; }
+			}
+			$this->write_post_list($this->currentPage, $blogPosts, $args);
 			
 			if ($this->currentPage == 0) {
 				$this->process_feed($blogPosts);
@@ -65,7 +73,7 @@ class Markd {
 			$args = array(
 					'category' => $category
 				);
-			//$this->process_blog_posts($args);
+			$this->process_blog_posts($args);
 		}
 		return;
 	}
@@ -134,11 +142,18 @@ class Markd {
 		return $returnPageListing;
 	}
 	
-	public function write_post_list($pageNumber, $contentList) {
+	public function write_post_list($pageNumber, $contentList, $args = array()) {
 		if (count($contentList) < 1) { return FALSE; }
-		if ($pageNumber == 0) {
+		if ($pageNumber == 0 && !isset($args['category'])) {
 			$file = PUBLISHED_PATH . '/index.html';
 			$context = 'posting-index';
+		} elseif (isset($args['category'])) {
+			global $postListingType;
+			$postListingType = array('category' => $args['category']);
+			if (!file_exists(PUBLISHED_PATH . '/category')) {
+				mkdir(PUBLISHED_PATH . '/category', 0755);
+			}
+			$file = PUBLISHED_PATH . '/category/' . $args['category'] . '-' . $pageNumber . '.html';
 		} else {
 			$file = PUBLISHED_PATH . '/archive-' . $pageNumber . '.html';
 			$context = 'posting-archive';
@@ -149,13 +164,19 @@ class Markd {
 		
 		if (!empty($contentList)) {
 			foreach($contentList as $content) {
-				if (is_array($content->categories)) {
+				if (is_array($content->categories) && !isset($postListingType['category'])) {
 					foreach ($content->categories as $category) {
-						$this->categoryList[$category] = true;
+						if (isset($this->categoryList[$category])) {
+							$this->categoryList[$category]++;
+						} else {
+							$this->categoryList[$category] = 1;
+						}
 					}
 				}
 				Theme::locate_template('post-content', $context, $content);
-				$this->write_single_post($content);
+				if (!isset($args['category'])) {
+					$this->write_single_post($content);
+				}
 			}
 		}
 
@@ -166,7 +187,13 @@ class Markd {
 	
 	public function write_single_post($content) {
 		$file = Helpers::sanitize_slug($content->title);
-		$file = PUBLISHED_PATH . '/' . $file . '.html';
+		
+		$path = Helpers::trailingslashit(date('Y', $content->raw_date));
+		if (!file_exists(PUBLISHED_PATH . '/' . $path)) {
+			mkdir(PUBLISHED_PATH . '/' . $path, 0755);
+		}
+
+		$file = PUBLISHED_PATH . '/' . $path . $file . '.html';
 		
 		$this->start_buffer();
 		Theme::locate_template('header');

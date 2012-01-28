@@ -8,9 +8,6 @@ class Theme {
 		if ($content->date != '' && is_numeric($content->date)) {
 			$content->date = date(THEME_DATE_FORMAT, $content->date);
 		}
-		if ($content->title != '') {
-			$content->permalink = '/' . Helpers::sanitize_slug($content->title) . '.html';
-		}
 
 		switch($templateName) {
 			case 'header':
@@ -63,14 +60,14 @@ class Theme {
 					}
 					$page = new Page(PAGES_PATH . '/' . $k . '/' . $n);
 					if ($page->published == 'true') {
-						$nav[$k][$n]['published_file'] = Helpers::sanitize_slug($page->title) . '.html';
+						$nav[$k][$n]['published_file'] = '/' . Helpers::sanitize_slug($page->title) . '.html';
 						$nav[$k][$n]['name'] = $page->title;
 					}
 				}
 			} else {
 				$page = new Page(PAGES_PATH . '/' . $navItem);
 				if ($page->published == 'true' && strpos($page->content_file, '404.md') === false) {
-					$nav[$navItem]['published_file'] = Helpers::sanitize_slug($page->title) . '.html';
+					$nav[$navItem]['published_file'] = '/' . Helpers::sanitize_slug($page->title) . '.html';
 					$nav[$navItem]['name'] = $page->title;
 				}
 			}
@@ -97,21 +94,35 @@ class Theme {
 	}
 
 	public static function get_pagination($currentPage) {
+		global $postListingType;
+		
+		if (is_array($postListingType) && isset($postListingType['category'])) {
+			$pathPreface = '/category/' . $postListingType['category'] . '-';
+		} else {
+			$pathPreface = '/archive-';
+		}
+
 		echo '<ul>';
 		if ($currentPage == 0) {
 			echo '<li></li>';
-		} elseif ($currentPage == 1) {
+		} elseif ($currentPage == 1 && empty($postListingType)) {
 			echo '<li class="prev"><a href="/">Previous</a></li>';
+		} elseif ($currentPage == 1 && !empty($postListingType)) {
+			echo '<li class="prev"><a href="' . self::get_cat_link($postListingType['category']) . '">Previous</a></li>';
 		} else {
-			echo '<li class="prev"><a href="/archive-' . ($currentPage - 1) . '.html">Previous</a></li>';
+			echo '<li class="prev"><a href="' . $pathPreface . ($currentPage - 1) . '.html">Previous</a></li>';
 		}
 
 		global $currently_processing;
 		if ($currently_processing) {
-			echo '<li class="next"><a href="/archive-' . ($currentPage + 1) . '.html">Next Page</a></li>';
+			echo '<li class="next"><a href="' . $pathPreface . ($currentPage + 1) . '.html">Next Page</a></li>';
 		} else {
 			echo '<li></li>';
 		}
 		echo '</ul>';
+	}
+
+	public static function get_cat_link($catName) {
+		return '/category/' . strtolower($catName) . '-0.html';
 	}
 }
