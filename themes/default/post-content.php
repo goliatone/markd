@@ -10,7 +10,6 @@
 					}
 			}
 		?>
-
 	</div>
 	<div class="post-content"><?php echo $content->html_content; ?></div>
 	<script type="text/javascript">

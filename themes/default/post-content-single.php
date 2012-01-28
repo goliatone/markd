@@ -1,11 +1,21 @@
 				<div class="post-wrap single">
-					<h1 class="post-title">{{post_title}}</h1>
-					<div class="posted-date">Posted {{post_date}}</div>
-					<div class="post-content">{{post_content}}</div>
+					<h1 class="post-title"><?php echo $content->title; ?></h1>
+					<div class="post-meta">
+						Posted <?php echo $content->date; ?>
+						<?php
+							if (is_array($content->categories) && !empty($content->categories)) {
+									echo ' in ';
+									foreach ($content->categories as $category) {
+										echo $category;
+									}
+							}
+						?>
+					</div>
+					<div class="post-content"><?php echo $content->html_content; ?></div>
 					<div id="disqus_thread"></div>
 					<script type="text/javascript">
 					    var disqus_shortname = '{{disqus_shortname}}';
-						var disqus_identifier = '{{post_id}}';
+						var disqus_identifier = '<?php echo $content->id; ?>';
 					    (function() {
 					        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
 					        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';

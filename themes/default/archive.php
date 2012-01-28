@@ -1,7 +1,17 @@
 <div class="post-wrap well">
-	<h2 class="post-title"><a href="{{post_permalink}}">{{post_title}}</a></h2>
-	<div class="posted-date">Posted {{post_date}}</div>
-	<div class="post-content">{{post_content}}</div>
+	<h2 class="post-title"><a href="<?php echo $content->permalink; ?>"><?php echo $content->title; ?></a></h2>
+	<div class="post-meta">
+		Posted <?php echo $content->date; ?>
+		<?php
+			if (is_array($content->categories) && !empty($content->categories)) {
+					echo ' in ';
+					foreach ($content->categories as $category) {
+						echo $category;
+					}
+			}
+		?>
+	</div>
+	<div class="post-content"><?php echo $content->html_content; ?></div>
 	<script type="text/javascript">
 	    var disqus_shortname = '{{disqus_shortname}}';
 	    (function () {
@@ -12,6 +22,6 @@
 	    }());
 	</script>
 	<div class="comment-count">
-		<a href="{{post_permalink}}#disqus_thread" data-disqus-identifier="{{post_id}}">Comments</a>
+		<a href="<?php echo $content->permalink; ?>#disqus_thread" data-disqus-identifier="<?php echo $content->id; ?>">Comments</a>
 	</div>
 </div>

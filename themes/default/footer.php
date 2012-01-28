@@ -20,7 +20,7 @@
 	</div> <!-- content -->
 
     <footer>
-      	<p>&copy; Matt Walters {{current_year}}</p>
+      	<p>&copy; Matt Walters 2012 - <?php echo date('Y'); ?></p>
 		{{markd_footer}}
     </footer>
 
