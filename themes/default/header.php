@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width" />
-<title>{{site_title}} - {{site_desc}}</title>
-<meta property="og:title" content="{{site_title}}" />
+<title><?php echo SITE_TITLE; ?> - <?php echo SITE_DESC; ?></title>
+<meta property="og:title" content="<?php echo SITE_TITLE; ?>" />
 <meta property="og:url" content="http://mattwalters.net" />
-<meta property="og:description" content="{{site_desc}}" />
-<meta property="og:site_name" content="{{site_title}}" />
+<meta property="og:description" content="<?php echo SITE_DESC; ?>" />
+<meta property="og:site_name" content="<?php echo SITE_TITLE; ?>" />
 
 <link rel="stylesheet" href="/style.css">
 <script type="text/javascript">
@@ -25,7 +25,6 @@
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 
-{{markd_header}}
 </head>
 
 <body>
@@ -33,7 +32,7 @@
 <div class="topbar">
 	<div class="fill">
 		<div class="container">
-			<a class="brand" href="/">{{site_title}}</a>
+			<a class="brand" href="/"><?php echo SITE_TITLE; ?></a>
 			{{site_navigation}}
 		</div>
 	</div>

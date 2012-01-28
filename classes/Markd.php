@@ -7,7 +7,7 @@ class Markd {
 	public $publishedPosts;
 	public $renderedNavigation;
 	private $currentPage;
-	
+
 	function __construct() {
 		$this->publishedPosts = 0;
 		$this->currentPage = 0;
@@ -22,6 +22,14 @@ class Markd {
 		$this->complete_process();
 	}
 	
+	private function start_buffer() {
+		ob_start();
+	}
+
+	private function get_buffer() {
+		return ob_get_clean();
+	}
+
 	public function get_page_menu() {
 		$pages = Filesystem::directory_to_array(PAGES_PATH);
 
@@ -163,29 +171,31 @@ class Markd {
 			$context = 'posting-archive';
 		}
 		
-		$writeContent = Theme::locate_template('header', '', $this->renderedNavigation);
+		$this->start_buffer();
+		Theme::locate_template('header', '', $this->renderedNavigation);
 		
 		if (!empty($contentList)) {
 			foreach($contentList as $content) {
-				$writeContent .= Theme::locate_template('post-content', $context, $content);
+				Theme::locate_template('post-content', $context, $content);
 				$this->write_single_post($content);
 			}
 		}
 
-		$writeContent .= Theme::locate_template('footer', '', $pageNumber);
+		Theme::locate_template('footer', '', $pageNumber);
 
-		Filesystem::write_file($file, $writeContent, 'w');
+		Filesystem::write_file($file, $this->get_buffer(), 'w');
 	}
 	
 	public function write_single_post($content) {
 		$file = Helpers::sanitize_slug($content->title);
 		$file = PUBLISHED_PATH . '/' . $file . '.html';
 		
-		$writeContent = Theme::locate_template('header', '', $this->renderedNavigation);
-		$writeContent .= Theme::locate_template('post-content', 'single', $content);
-		$writeContent .= Theme::locate_template('footer', 'single');
+		$this->start_buffer();
+		Theme::locate_template('header', '', $this->renderedNavigation);
+		Theme::locate_template('post-content', 'single', $content);
+		Theme::locate_template('footer', 'single');
 
-		Filesystem::write_file($file, $writeContent, 'w');
+		Filesystem::write_file($file, $this->get_buffer(), 'w');
 	}
 	
 	public function write_page($page) {
@@ -196,11 +206,12 @@ class Markd {
 			$file = PUBLISHED_PATH . '/404.html';
 		}
 		
-		$writeContent = Theme::locate_template('header', '', $this->renderedNavigation);
-		$writeContent .= Theme::locate_template('page', '', $page);
-		$writeContent .= Theme::locate_template('footer', 'single');
+		$this->start_buffer();
+		Theme::locate_template('header', '', $this->renderedNavigation);
+		Theme::locate_template('page', '', $page);
+		Theme::locate_template('footer', 'single');
 
-		Filesystem::write_file($file, $writeContent, 'w');
+		Filesystem::write_file($file, $this->get_buffer(), 'w');
 	}
 	
 	private function complete_process() {
