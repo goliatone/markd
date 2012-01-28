@@ -6,12 +6,13 @@
 class Markd {
 	public $publishedPosts;
 	private $currentPage;
+	private $categoryList;
 
 	function __construct() {
 		$this->publishedPosts = 0;
-		$this->currentPage = 0;
 
 		$this->process_blog_posts();
+		$this->process_categories();
 		$this->process_pages();
 		$this->process_stylesheet();
 		$this->process_javascript();
@@ -34,11 +35,12 @@ class Markd {
 		return $buffer_contents;
 	}
 
-	public function process_blog_posts() {
+	public function process_blog_posts($args = array()) {
 		// Process blog posts
 		global $currently_processing;
 		$currently_processing = TRUE;
 		$processed_count = 0;
+		$this->currentPage = 0;
 
 		while ($currently_processing) {
 			$blogPosts = array();
@@ -56,6 +58,16 @@ class Markd {
 			
 			$this->currentPage++;
 		}
+	}
+
+	private function process_categories() {
+		foreach ($this->categoryList as $category=>$v) {
+			$args = array(
+					'category' => $category
+				);
+			//$this->process_blog_posts($args);
+		}
+		return;
 	}
 	
 	public function process_pages() {
@@ -102,8 +114,8 @@ class Markd {
 		$feed->save();
 	}
 	
-	public function get_posts($startPostNum, $numberOfPosts) {
-		$posts = Posts::get_posts($startPostNum, $numberOfPosts);
+	public function get_posts($startPostNum, $numberOfPosts, $args = array()) {
+		$posts = Posts::get_posts($startPostNum, $numberOfPosts, $args);
 		$this->publishedPosts = $this->publishedPosts + count($posts['blogPosts']);
 
 		return $posts;
@@ -124,7 +136,6 @@ class Markd {
 	
 	public function write_post_list($pageNumber, $contentList) {
 		if (count($contentList) < 1) { return FALSE; }
-		
 		if ($pageNumber == 0) {
 			$file = PUBLISHED_PATH . '/index.html';
 			$context = 'posting-index';
@@ -138,6 +149,11 @@ class Markd {
 		
 		if (!empty($contentList)) {
 			foreach($contentList as $content) {
+				if (is_array($content->categories)) {
+					foreach ($content->categories as $category) {
+						$this->categoryList[$category] = true;
+					}
+				}
 				Theme::locate_template('post-content', $context, $content);
 				$this->write_single_post($content);
 			}

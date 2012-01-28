@@ -3,7 +3,7 @@
 * Posts Class
 */
 class Posts {
-	public static function get_posts($startPostNum, $numberOfPosts) {
+	public static function get_posts($startPostNum, $numberOfPosts, $args = array()) {
 		if ($startPostNum === '' || $numberOfPosts == '' || $numberOfPosts < 1) { return FALSE; }
 
 		$returnPostListing = array();
@@ -14,9 +14,21 @@ class Posts {
 
 			// Check that for published posts and get their published date
 			foreach ($postListing as $postFile) {
+				$returnPost = true;
 				$post = new Post($postFile);
-				if ($post->published == true) {
-					$sortedPostListing[$post->date] = $postFile;
+				
+				if ($post->published != true) {
+					$returnPost = false;
+				}
+
+				if (isset($args['category'])) {
+					if (!in_array($args['category'], $post->categories)) {
+						$returnPost = false;
+					}
+				}
+
+				if ($returnPost) {
+					$sortedPostListing[$post->date] = $postFile;	
 				}
 			}
 
