@@ -16,10 +16,9 @@ $themeReplacements = array(
 You should not need to edit below this line
 ******************************************/
 
-function msw_add_jotform_contact($footerContent) {
+function msw_add_jotform_contact() {
 	global $themeReplacements;
 	$jotformId = $themeReplacements['{{jotform_id}}'];
-
 
 	$jotformContent = '
 		<script src="http://www.jotform.com/min/g=feedback" type="text/javascript">
@@ -38,11 +37,10 @@ function msw_add_jotform_contact($footerContent) {
 		</script>
 	';
 
-	$footerContent = str_replace('{{markd_footer}}', $jotformContent, $footerContent);
-	return $footerContent;
-	
+	echo $jotformContent;
+	return;
 }
 
 if ($themeReplacements['{{jotform_id}}'] != '') {
-	$hooks->add_filter('markd_footer', 'msw_add_jotform_contact');
+	$hooks->add_action('markd_footer', 'msw_add_jotform_contact');
 }

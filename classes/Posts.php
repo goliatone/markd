@@ -40,4 +40,9 @@ class Posts {
 
 		return $returnPostListing;
 	}
+
+	public static function get_total_post_count() {
+		$postListing = Filesystem::list_directory(POSTS_PATH);
+		return count($postListing);
+	}
 }

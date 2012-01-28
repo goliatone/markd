@@ -25,6 +25,7 @@
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 
+<?php $hooks->execute_actions('markd_header'); ?>
 </head>
 
 <body>
@@ -33,7 +34,7 @@
 	<div class="fill">
 		<div class="container">
 			<a class="brand" href="/"><?php echo SITE_TITLE; ?></a>
-			{{site_navigation}}
+			<?php echo Theme::get_nav(); ?>
 		</div>
 	</div>
 </div>

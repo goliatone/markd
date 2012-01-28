@@ -4,12 +4,11 @@
 */
 class Content {
 	public $content_file;
-	public $raw_contents;
+	public $raw_content;
 	public $id;
 	public $title;
 	public $date;
 	public $published;
-	public $raw_content;
 	public $html_content;
 
 	function __construct($content_file) {		
@@ -19,12 +18,12 @@ class Content {
 	}
 
 	function load_content() {
-		$this->raw_contents = Filesystem::read_file($this->content_file);
+		$this->raw_content = Filesystem::read_file($this->content_file);
 	}
 
 	function parse_content() {
-		$content_start = strpos($this->raw_contents, '---', 4);
-		$raw_headings = trim(substr($this->raw_contents, 3, ($content_start - 3)));
+		$content_start = strpos($this->raw_content, '---', 4);
+		$raw_headings = trim(substr($this->raw_content, 3, ($content_start - 3)));
 		$raw_headings = explode("\n", $raw_headings);
 		
 		foreach ($raw_headings as $raw_heading) {
@@ -51,9 +50,9 @@ class Content {
 		$this->title         = trim($heading['Title']);
 		$this->date          = trim($heading['Date']);
 		$this->published     = trim($heading['Published']);
-		$this->raw_content   = trim(substr($this->raw_contents, ($content_start + 4), strlen($this->raw_contents)));
+		$this->raw_content   = trim(substr($this->raw_content, ($content_start + 4), strlen($this->raw_content)));
 		if (!empty($heading['Category'])) { $this->categories = $heading['Category']; }
-		if (Helpers::feature_enabled('MARKD_DEBUG')) { $this->raw_contents  .= "\n\n" . $this->content_file; }
-		$this->html_content  = trim(Markdown(substr($this->raw_contents, ($content_start + 4), strlen($this->raw_contents))));
+		if (Helpers::feature_enabled('MARKD_DEBUG')) { $this->raw_content  .= "\n\n" . $this->content_file; }
+		$this->html_content  = trim(Markdown(substr($this->raw_content, 0, strlen($this->raw_content))));
 	}
 }

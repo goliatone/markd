@@ -1,6 +1,6 @@
 			</div> <!-- span10 -->
 			<div class="span4">
-				{{markd_sidebar}}
+				<?php $hooks->execute_actions('markd_sidebar'); ?>
 				<div class="side-buttons">
 					<a class="btn primary" href="/feed">RSS</a>
 				</div>
@@ -9,10 +9,7 @@
 		<div class="row">
 			<div class="span12">
 				<div class="pagination">
-					<ul>
-						{{page_previous}}
-						{{page_next}}
-					</ul>
+					<?php Theme::get_pagination($currentPage); ?>
 				</div>
 			</div>
 			<div class="span4"></div>
@@ -21,7 +18,7 @@
 
     <footer>
       	<p>&copy; Matt Walters 2012 - <?php echo date('Y'); ?></p>
-		{{markd_footer}}
+		<?php $hooks->execute_actions('markd_footer'); ?>
     </footer>
 
 </div> <!-- container -->

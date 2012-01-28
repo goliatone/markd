@@ -9,7 +9,7 @@ Author URI: http://mattwalters.net/
 License: GPL v3
 */
 
-function msw_add_twitter_widget($sidebarContent) {
+function msw_add_twitter_widget() {
 	// Set this to your Twitter username
 	$twitterUsername = 'mwalters';
 
@@ -44,9 +44,9 @@ function msw_add_twitter_widget($sidebarContent) {
 		</script>
 	";
 
-	$sidebarContent = str_replace('{{markd_sidebar}}', $twitterContent, $sidebarContent);
-	return $sidebarContent;
+	echo $twitterContent;
+	return;
 	
 }
 
-$hooks->add_filter('markd_sidebar', 'msw_add_twitter_widget');
+$hooks->add_action('markd_sidebar', 'msw_add_twitter_widget');

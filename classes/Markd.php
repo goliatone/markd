@@ -5,14 +5,11 @@
 */
 class Markd {
 	public $publishedPosts;
-	public $renderedNavigation;
 	private $currentPage;
 
 	function __construct() {
 		$this->publishedPosts = 0;
 		$this->currentPage = 0;
-
-		$this->renderedNavigation = $this->get_page_menu();
 
 		$this->process_blog_posts();
 		$this->process_pages();
@@ -27,65 +24,30 @@ class Markd {
 	}
 
 	private function get_buffer() {
-		return ob_get_clean();
-	}
+		$buffer_contents = ob_get_clean();
 
-	public function get_page_menu() {
-		$pages = Filesystem::directory_to_array(PAGES_PATH);
-
-		foreach ($pages as $k=>$navItem) {
-			if (is_array($navItem)) {
-				foreach ($navItem as $m=>$n) {
-					if (is_array($n)) {
-						die("\n\n==============================[ERROR]====================================\nDrop downs for page structure can only support 2 levels.  Publish failed.\n=========================================================================\n\n");
-					}
-					$page = new Page(PAGES_PATH . '/' . $k . '/' . $n);
-					if ($page->published == 'true') {
-						$nav[$k][$n]['published_file'] = Helpers::sanitize_slug($page->title) . '.html';
-						$nav[$k][$n]['name'] = $page->title;
-					}
-				}
-			} else {
-				$page = new Page(PAGES_PATH . '/' . $navItem);
-				if ($page->published == 'true' && strpos($page->content_file, '404.md') === false) {
-					$nav[$navItem]['published_file'] = Helpers::sanitize_slug($page->title) . '.html';
-					$nav[$navItem]['name'] = $page->title;
-				}
-			}
+		global $themeReplacements;
+		foreach ($themeReplacements as $k=>$v) {
+			$buffer_contents = str_replace($k, $v, $buffer_contents);
 		}
 
-		$renderedNav = '<ul class="nav">' . "\n";
-		foreach ($nav as $k=>$v) {
-			if (!isset($v['published_file'])) {
-				$renderedNav .= '	<li class="dropdown" data-dropdown="dropdown">' . "\n";
-				$renderedNav .= '		<a class="dropdown-toggle" href="#">' . $k . '</a>' . "\n";
-				$renderedNav .= '		<ul class="dropdown-menu">' . "\n";
-				foreach ($v as $m=>$n) {
-					$renderedNav .= '			<li><a href="' . $n['published_file'] . '">' . $n['name'] . '</a></li>' . "\n";
-				}
-				$renderedNav .= '		</ul>' . "\n";
-				$renderedNav .= '	</li>' . "\n";
-			} else {
-				$renderedNav .= '	<li><a href="' . $v['published_file'] . '">' . $v['name'] . '</a></li>' . "\n";
-			}
-		}
-		$renderedNav .= '</ul>' . "\n";
-
-		return $renderedNav;
+		return $buffer_contents;
 	}
-	
+
 	public function process_blog_posts() {
 		// Process blog posts
 		global $currently_processing;
 		$currently_processing = TRUE;
+		$processed_count = 0;
 
 		while ($currently_processing) {
 			$blogPosts = array();
 			$get_posts = $this->get_posts((POSTS_PER_PAGE * $this->currentPage), POSTS_PER_PAGE);
 
 			$blogPosts = $get_posts['blogPosts'];
+			$processed_count = $processed_count + count($blogPosts);
 
-			if (count($blogPosts) < POSTS_PER_PAGE) { $currently_processing = FALSE; }		// Keep loop going until we reach a full page of posts
+			if (count($blogPosts) < POSTS_PER_PAGE || $processed_count == Posts::get_total_post_count()) { $currently_processing = FALSE; }		// Keep loop going until we reach a full page of posts
 			$this->write_post_list($this->currentPage, $blogPosts);
 			
 			if ($this->currentPage == 0) {
@@ -131,7 +93,7 @@ class Markd {
 					'id'           => $blogPost->id,
 					'title'        => $blogPost->title,
 					'link'         => SITE_URL . '/' . Helpers::sanitize_slug($blogPost->title) . '.html',
-					'pubDate'      => date('D, j M Y H:i:s +0000', $blogPost->date),
+					'pubDate'      => $blogPost->date,
 					'html_content' => $blogPost->html_content
 				);
 				$feed->add_item($item);
@@ -172,7 +134,7 @@ class Markd {
 		}
 		
 		$this->start_buffer();
-		Theme::locate_template('header', '', $this->renderedNavigation);
+		Theme::locate_template('header');
 		
 		if (!empty($contentList)) {
 			foreach($contentList as $content) {
@@ -191,7 +153,7 @@ class Markd {
 		$file = PUBLISHED_PATH . '/' . $file . '.html';
 		
 		$this->start_buffer();
-		Theme::locate_template('header', '', $this->renderedNavigation);
+		Theme::locate_template('header');
 		Theme::locate_template('post-content', 'single', $content);
 		Theme::locate_template('footer', 'single');
 
@@ -207,7 +169,7 @@ class Markd {
 		}
 		
 		$this->start_buffer();
-		Theme::locate_template('header', '', $this->renderedNavigation);
+		Theme::locate_template('header');
 		Theme::locate_template('page', '', $page);
 		Theme::locate_template('footer', 'single');
 
@@ -223,10 +185,9 @@ class Markd {
 	}
 }
 
-function markd_add_generator_header($headerContent) {
-	$generatorContent = "\n<meta name=\"generator\" content=\"markd\" />\n";
-	$headerContent = str_replace('{{markd_header}}', $generatorContent, $headerContent);
-	return $headerContent;
+function markd_add_generator_header() {
+	echo "\n<meta name=\"generator\" content=\"markd\" />\n";
+	return;
 }
 
-$hooks->add_filter('markd_header', 'markd_add_generator_header');
+$hooks->add_action('markd_header', 'markd_add_generator_header');

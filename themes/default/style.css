@@ -386,8 +386,12 @@ body {
 }
 
 .post-meta {
-	margin-bottom: 20px;
+	margin: -15px 0 20px;
 	font-size: 11px;
+}
+
+.well .post-meta {
+	margin-top: 0;
 }
 
 .well img, .single img {
