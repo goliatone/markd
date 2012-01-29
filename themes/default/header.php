@@ -9,7 +9,9 @@
 <meta property="og:description" content="<?php echo SITE_DESC; ?>" />
 <meta property="og:site_name" content="<?php echo SITE_TITLE; ?>" />
 
-<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/prettify.css">
+<link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript">
 
   var _gaq = _gaq || [];

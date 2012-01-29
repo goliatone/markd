@@ -1,0 +1,73 @@
+html, body {
+	background-image: url(https://si0.twimg.com/images/themes/theme14/bg.gif);
+}
+
+body {
+	padding-top: 40px; /* 40px to make the container go all the way to the bottom of the topbar */
+}
+
+.page-header {
+	background-color: #f5f5f5;
+	padding: 20px 20px 10px;
+	margin: -20px -20px 20px;
+}
+
+.container {
+	width: 820px;
+}
+
+.content {
+  background-color: #fff;
+  padding: 20px;
+  margin: 0 -20px; /* negative indent the amount of the padding to maintain the grid system */
+  -webkit-border-radius: 0 0 6px 6px;
+     -moz-border-radius: 0 0 6px 6px;
+          border-radius: 0 0 6px 6px;
+  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+     -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+          box-shadow: 0 1px 2px rgba(0,0,0,.15);
+}
+
+.post-meta {
+	margin: -15px 0 20px;
+	font-size: 11px;
+}
+
+.well .post-meta {
+	margin-top: 0;
+}
+
+.well img, .single img {
+	max-width: 540px;
+}
+
+.twtr-tweet-text .twtr-user, .twtr-ft {
+	display: none;
+}
+
+.twtr-ft {
+	background-color: #ccc;
+	margin-bottom: 20px;
+	min-height: 20px;
+	border: 1px solid #EEE;
+	border: 1px solid rgba(0, 0, 0, 0.05);
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+	-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+	border-image: initial;
+}
+
+.side-buttons {
+	margin: 10px 10px;
+}
+
+.container > footer p {
+	text-align: center;
+}
+
+footer {
+	border-top: none;
+}

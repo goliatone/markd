@@ -91,13 +91,35 @@ class Markd {
 	}
 	
 	public function process_stylesheet() {
-		$styleSheet = Filesystem::read_file(THEMES_PATH . '/' . ACTIVE_THEME . '/style.css');
-		Filesystem::write_file(PUBLISHED_PATH . '/style.css', $styleSheet);
+		$cssFiles = Filesystem::list_directory(Helpers::untrailingslashit(THEMES_PATH) . ACTIVE_THEME . '/css');
+
+		if (!empty($cssFiles)) {
+			foreach ($cssFiles as $cssFile) {
+				$styleSheet = Filesystem::read_file($cssFile);
+
+				if (!file_exists(PUBLISHED_PATH . '/css')) {
+					mkdir(PUBLISHED_PATH . '/css', 0755);
+				}
+
+				Filesystem::write_file(PUBLISHED_PATH . '/css/' . basename($cssFile), $styleSheet);
+			}
+		}
 	}
 	
 	public function process_javascript() {
-		$commonJavaScript = Filesystem::read_file(THEMES_PATH . '/' . ACTIVE_THEME . '/common.js');
-		Filesystem::write_file(PUBLISHED_PATH . '/common.js', $commonJavaScript);		
+		$jsFiles = Filesystem::list_directory(Helpers::untrailingslashit(THEMES_PATH) . ACTIVE_THEME . '/js');
+
+		if (!empty($jsFiles)) {
+			foreach ($jsFiles as $jsFile) {
+				$js = Filesystem::read_file($jsFile);
+
+				if (!file_exists(PUBLISHED_PATH . '/js')) {
+					mkdir(PUBLISHED_PATH . '/js', 0755);
+				}
+
+				Filesystem::write_file(PUBLISHED_PATH . '/js/' . basename($jsFile), $js);
+			}
+		}
 	}
 	
 	public function process_feed($blogPosts) {

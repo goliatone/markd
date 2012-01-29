@@ -57,5 +57,7 @@ class Content {
 		if (!empty($heading['Category'])) { $this->categories = $heading['Category']; }
 		if (Helpers::feature_enabled('MARKD_DEBUG')) { $this->raw_content  .= "\n\n" . $this->content_file; }
 		$this->html_content  = trim(Markdown(substr($this->raw_content, 0, strlen($this->raw_content))));
+		$this->html_content = str_replace('<pre><code>', '<pre class="prettyprint">', $this->html_content);
+		$this->html_content = str_replace('</code></pre>', '</pre>', $this->html_content);
 	}
 }

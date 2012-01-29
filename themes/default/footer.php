@@ -23,7 +23,9 @@
 
 </div> <!-- container -->
 
-<script src="/common.js" type="text/javascript"></script>
+<script src="/js/bootstrap-dropdown.js" type="text/javascript"></script>
+<script src="/js/prettify.js" type="text/javascript"></script>
+<script src="/js/common.js" type="text/javascript"></script>
 
 </body>
 </html>
