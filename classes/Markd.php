@@ -59,11 +59,11 @@ class Markd {
 				if (count($blogPosts) < POSTS_PER_PAGE || $processed_count == $this->categoryList[$args['category']]) { $currently_processing = FALSE; }
 			}
 			$this->write_post_list($this->currentPage, $blogPosts, $args);
-			
+
 			if ($this->currentPage == 0) {
 				$this->process_feed($blogPosts);
 			}
-			
+
 			$this->currentPage++;
 		}
 	}
@@ -75,6 +75,7 @@ class Markd {
 				);
 			$this->process_blog_posts($args);
 		}
+
 		return;
 	}
 	
@@ -158,10 +159,8 @@ class Markd {
 			$file = PUBLISHED_PATH . '/archive-' . $pageNumber . '.html';
 			$context = 'posting-archive';
 		}
-		
 		$this->start_buffer();
 		Theme::locate_template('header');
-		
 		if (!empty($contentList)) {
 			foreach($contentList as $content) {
 				if (is_array($content->categories) && !isset($postListingType['category'])) {

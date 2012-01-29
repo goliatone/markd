@@ -8,7 +8,9 @@ class Posts {
 
 		$returnPostListing = array();
 
+		$loopCtr = 0;
 		do {
+			$loopCtr++;
 			// Get listing of all posts in the directory
 			$postListing = Filesystem::list_directory(POSTS_PATH);
 
@@ -18,6 +20,10 @@ class Posts {
 				$post = new Post($postFile);
 				
 				if ($post->published != true) {
+					$returnPost = false;
+				}
+
+				if ($post->raw_date > time()) {
 					$returnPost = false;
 				}
 
@@ -48,7 +54,7 @@ class Posts {
 			}
 			
 			$startPostNum = $startPostNum + $numberOfPosts;
-		} while (count($returnPostListing['blogPosts']) < $numberOfPosts && count($postListing) == $numberOfPosts);
+		} while (count($returnPostListing['blogPosts']) < $numberOfPosts && count($postListing) == $numberOfPosts && $loopCtr <= Posts::get_total_post_count());
 
 		return $returnPostListing;
 	}
