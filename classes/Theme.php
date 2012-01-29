@@ -11,24 +11,30 @@ class Theme {
 
 		switch($templateName) {
 			case 'header':
-				if ($context === '') {
-					$file = THEMES_PATH . ACTIVE_THEME . '/header.php';
-				}
+				$file = THEMES_PATH . ACTIVE_THEME . '/header.php';
 				break;
 			case 'footer':
 				$currentPage = $content;
 				$file = THEMES_PATH . ACTIVE_THEME . '/footer.php';
 				break;
 			case 'post-content':
-				if ($context === 'single') {
-					$file = THEMES_PATH . ACTIVE_THEME . '/post-content-single.php';
+				$file = THEMES_PATH . ACTIVE_THEME . '/formats/post.php';
+				if ($context == 'single') {
+					if ($content->format != '') {
+						if (file_exists(THEMES_PATH . ACTIVE_THEME . '/formats/single-' . strtolower($content->format) . '.php')) {
+							$file = THEMES_PATH . ACTIVE_THEME . '/formats/single-' . strtolower($content->format) . '.php';
+						}
+					} else {
+						$file = THEMES_PATH . ACTIVE_THEME . '/formats/single.php';
+					}
 				} else {
-					$file = THEMES_PATH . ACTIVE_THEME . '/post-content.php';
-					
-					if (file_exists(THEMES_PATH . ACTIVE_THEME . '/archive.php') && $context == 'posting-archive') {
-						$file = THEMES_PATH . ACTIVE_THEME . '/archive.php';
+					if ($content->format != '') {
+						if (file_exists(THEMES_PATH . ACTIVE_THEME . '/formats/' . strtolower($content->format) . '.php')) {
+							$file = THEMES_PATH . ACTIVE_THEME . '/formats/' . strtolower($content->format) . '.php';
+						}
 					}
 				}
+
 				break;
 			case 'page':
 				$file = THEMES_PATH . ACTIVE_THEME . '/page.php';

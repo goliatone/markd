@@ -14,8 +14,9 @@ class Markd {
 		$this->process_blog_posts();
 		$this->process_categories();
 		$this->process_pages();
-		$this->process_stylesheet();
-		$this->process_javascript();
+		$this->process_stylesheets();
+		$this->process_javascripts();
+		$this->process_images();
 		
 		$this->complete_process();
 	}
@@ -90,7 +91,7 @@ class Markd {
 		}
 	}
 	
-	public function process_stylesheet() {
+	public function process_stylesheets() {
 		$cssFiles = Filesystem::list_directory(Helpers::untrailingslashit(THEMES_PATH) . ACTIVE_THEME . '/css');
 
 		if (!empty($cssFiles)) {
@@ -106,7 +107,7 @@ class Markd {
 		}
 	}
 	
-	public function process_javascript() {
+	public function process_javascripts() {
 		$jsFiles = Filesystem::list_directory(Helpers::untrailingslashit(THEMES_PATH) . ACTIVE_THEME . '/js');
 
 		if (!empty($jsFiles)) {
@@ -121,7 +122,23 @@ class Markd {
 			}
 		}
 	}
-	
+
+	public function process_images() {
+		$images = Filesystem::list_directory(Helpers::untrailingslashit(THEMES_PATH) . ACTIVE_THEME . '/images');
+
+		if (!empty($images)) {
+			foreach ($images as $image) {
+				$js = Filesystem::read_file($image);
+
+				if (!file_exists(PUBLISHED_PATH . '/images')) {
+					mkdir(PUBLISHED_PATH . '/images', 0755);
+				}
+
+				Filesystem::write_file(PUBLISHED_PATH . '/images/' . basename($image), $js);
+			}
+		}
+	}
+
 	public function process_feed($blogPosts) {
 		// Create Feed Object and save
 		$feed = new Feed();

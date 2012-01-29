@@ -71,3 +71,8 @@ body {
 footer {
 	border-top: none;
 }
+
+.format-link h2 {
+	padding-left: 40px;
+	background: url('/images/globe-active.png') no-repeat 0 2px
+}

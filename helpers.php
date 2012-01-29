@@ -64,6 +64,7 @@ class Helpers {
 	public static function sanitize_slug($toFilterString) {
 		$filteredString = trim($toFilterString);
 		$filteredString = str_replace(' ', '-', $filteredString);
+		$filteredString = str_replace('?', '', $filteredString);
 		return $filteredString;
 	}
 	

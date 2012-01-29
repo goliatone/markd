@@ -1,7 +1,7 @@
-<div class="post-wrap well">
-	<h2 class="post-title"><a href="<?php echo $content->permalink; ?>"><?php echo $content->title; ?></a></h2>
+<div class="post-wrap well format-link">
+<h2 class="post-title"><a target="_blank" href="<?php echo $content->link; ?>"><?php echo $content->title; ?></a></h2>
 	<div class="post-meta">
-		Posted <?php echo $content->date; ?>
+		Posted <a href="<?php echo $content->permalink; ?>"><?php echo $content->date; ?></a>
 		<?php
 			if (is_array($content->categories) && !empty($content->categories)) {
 					echo ' in ';
@@ -11,7 +11,12 @@
 			}
 		?>
 	</div>
-	<div class="post-content"><?php echo $content->html_content; ?></div>
+	<div class="post-content">
+		<?php echo $content->html_content; ?>
+		<p>
+			<small><a target="_blank" href="<?php echo $content->link; ?>"><?php echo $content->title; ?></a></small>
+		</p>
+	</div>
 	<script type="text/javascript">
 	    var disqus_shortname = '{{disqus_shortname}}';
 	    (function () {

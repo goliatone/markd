@@ -1,7 +1,7 @@
 				<div class="post-wrap single">
 					<h1 class="post-title"><?php echo $content->title; ?></h1>
 					<div class="post-meta">
-						Posted <?php echo $content->date; ?>
+						Posted <a href="<?php echo $content->permalink; ?>"><?php echo $content->date; ?></a>
 						<?php
 							if (is_array($content->categories) && !empty($content->categories)) {
 									echo ' in ';
