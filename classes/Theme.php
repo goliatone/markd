@@ -60,7 +60,7 @@ class Theme {
 					}
 					$page = new Page(PAGES_PATH . '/' . $k . '/' . $n);
 					if ($page->published == 'true') {
-						$nav[$k][$n]['published_file'] = '/' . Helpers::sanitize_slug($page->title) . '.html';
+						$nav[$k][$n]['published_file'] = '/' . strtolower($k) . '/' . Helpers::sanitize_slug($page->title) . '.html';
 						$nav[$k][$n]['name'] = $page->title;
 					}
 				}

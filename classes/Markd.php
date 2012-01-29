@@ -203,8 +203,21 @@ class Markd {
 	}
 	
 	public function write_page($page) {
+		$pathPrefix = str_replace(PAGES_PATH, '', $page->content_file);
+		$pathPrefix = substr($pathPrefix, 1);
+		$pathPrefix = substr($pathPrefix, 0, strpos($pathPrefix, '/'));
 		$file = Helpers::sanitize_slug($page->title);
-		$file = PUBLISHED_PATH . '/' . $file . '.html';
+		if ($pathPrefix != '') {
+			$pathPrefix = Helpers::trailingslashit(PUBLISHED_PATH) . Helpers::trailingslashit($pathPrefix);
+		} else {
+			$pathPrefix = Helpers::trailingslashit(PUBLISHED_PATH);
+		}
+		$pathPrefix = strtolower($pathPrefix);
+
+		if (!file_exists($pathPrefix)) {
+			mkdir($pathPrefix, 0755);
+		}
+		$file = $pathPrefix . $file . '.html';
 
 		if (strpos($page->content_file, '404.md') !== false) {
 			$file = PUBLISHED_PATH . '/404.html';
