@@ -37,7 +37,7 @@ class Theme {
 
 				break;
 			case 'page':
-				$file = THEMES_PATH . ACTIVE_THEME . '/page.php';
+				$file = THEMES_PATH . ACTIVE_THEME . '/formats/page.php';
 				$pageFile = (basename($content->content_file));
 				$pageFile = substr($pageFile, 0, strpos($pageFile, '.'));
 
