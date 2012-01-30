@@ -143,7 +143,7 @@ class Markd {
 		// Create Feed Object and save
 		$feed = new Feed();
 		$feed->set_title(SITE_TITLE);
-		$feed->set_selfLink(SITE_URL . '/feed.rss');
+		$feed->set_selfLink(SITE_URL . '/rss.xml');
 		$feed->set_siteLink(SITE_URL);
 		if (SITE_DESC !== '') { $feed->set_description(SITE_DESC); }
 		if (!empty($blogPosts)) {
@@ -152,7 +152,7 @@ class Markd {
 				$item = (object) array(
 					'id'           => $blogPost->id,
 					'title'        => $blogPost->title,
-					'link'         => SITE_URL . '/' . Helpers::sanitize_slug($blogPost->title) . '.html',
+					'link'         => SITE_URL . '/' . date('Y', $blogPost->raw_date) . '/' . Helpers::sanitize_slug($blogPost->title) . '.html',
 					'pubDate'      => $blogPost->date,
 					'html_content' => $blogPost->html_content
 				);
