@@ -61,7 +61,7 @@ class Markd {
 			}
 			$this->write_post_list($this->currentPage, $blogPosts, $args);
 
-			if ($this->currentPage == 0) {
+			if ($this->currentPage == 0 && empty($args)) {
 				$this->process_feed($blogPosts);
 			}
 
