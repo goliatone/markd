@@ -13,7 +13,7 @@
 		<div class="row">
 			<div class="span12">
 				<div class="pagination">
-					<?php Theme::get_pagination($currentPage); ?>
+					<?php if ($context != 'single') { Theme::get_pagination($currentPage); } ?>
 				</div>
 			</div>
 			<div class="span4"></div>
