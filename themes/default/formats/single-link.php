@@ -10,7 +10,6 @@
 									}
 							}
 						?>
-						<a href="<?php echo $content->permalink; ?>">#</a>
 					</div>
 					<div class="post-content">
 						<?php echo $content->html_content; ?>
