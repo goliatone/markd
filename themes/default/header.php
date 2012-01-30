@@ -4,8 +4,9 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width" />
 <title><?php echo SITE_TITLE; ?> - <?php echo SITE_DESC; ?></title>
+<link rel="alternate" type="application/rss+xml" title="RSS" href="<?php echo SITE_URL; ?>/rss.xml">
 <meta property="og:title" content="<?php echo SITE_TITLE; ?>" />
-<meta property="og:url" content="http://mattwalters.net" />
+<meta property="og:url" content="<?php echo SITE_URL; ?>" />
 <meta property="og:description" content="<?php echo SITE_DESC; ?>" />
 <meta property="og:site_name" content="<?php echo SITE_TITLE; ?>" />
 

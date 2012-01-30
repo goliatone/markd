@@ -13,8 +13,8 @@ function msw_add_twitter_widget() {
 	// Set this to your Twitter username
 	$twitterUsername = 'mwalters';
 
-
-	$twitterContent = "
+	$twitterContent = "<h3>Latest Tweets</h3>";
+	$twitterContent .= "
 		<script charset=\"utf-8\" src=\"http://widgets.twimg.com/j/2/widget.js\"></script>
 		<script>
 		new TWTR.Widget({
