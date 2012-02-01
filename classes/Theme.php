@@ -27,6 +27,8 @@ class Theme {
 					} else {
 						$file = THEMES_PATH . ACTIVE_THEME . '/formats/single.php';
 					}
+				} elseif ($context == 'sitemap') {
+					$file = THEMES_PATH . ACTIVE_THEME . '/formats/sitemap.php';
 				} else {
 					if ($content->format != '') {
 						if (file_exists(THEMES_PATH . ACTIVE_THEME . '/formats/' . strtolower($content->format) . '.php')) {

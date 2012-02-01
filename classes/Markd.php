@@ -14,9 +14,12 @@ class Markd {
 		$this->process_blog_posts();
 		$this->process_categories();
 		$this->process_pages();
+		$this->process_html_sitemap();
+		$this->process_xml_sitemap();
 		$this->process_stylesheets();
 		$this->process_javascripts();
 		$this->process_images();
+		$this->process_robotstxt();
 		
 		$this->complete_process();
 	}
@@ -90,6 +93,57 @@ class Markd {
 			$this->write_page($page);
 		}
 	}
+
+	public function process_html_sitemap() {
+		$get_posts = $this->get_posts(0, Posts::get_total_post_count(), array('file-data' => true));
+		$contents['blogPosts'] = $get_posts['blogPosts'];
+		$pages = $this->get_pages();
+		$contents['pages'] = $pages['pages'];
+
+		$this->write_html_sitemap($contents);
+	}
+
+	public function process_xml_sitemap() {
+		$get_posts = $this->get_posts(0, Posts::get_total_post_count(), array('file-data' => true));
+		$contents['blogPosts'] = $get_posts['blogPosts'];
+		$pages = $this->get_pages();
+		$contents['pages'] = $pages['pages'];
+
+		$sitemap = new Sitemap();
+		$item = (object) array(
+			'permalink'        => Helpers::trailingslashit(SITE_URL),
+			'raw_date'         => time(),
+			'change_frequency' => 'hourly',
+			'priority'         => '0.4'
+		);
+		$sitemap->add_item($item);
+
+		foreach ($contents['pages'] as $pageFile) {
+			$page = new Page($pageFile);
+			if (strpos($page->content_file, '404') === false) { // Leave the 404 page out of things
+				$item = (object) array(
+					'permalink'        => Helpers::untrailingslashit(SITE_URL) . $page->permalink,
+					'raw_date'         => $page->raw_date,
+					'change_frequency' => 'weekly',
+					'priority'         => '0.8'
+				);
+				if (strpos($page->permalink, 'search') !== false) { // Deprioritize the search page
+					$item->priority = '0.1';
+				}
+				$sitemap->add_item($item);
+			}
+		}
+		foreach ($contents['blogPosts'] as $post) {
+			$item = (object) array(
+				'permalink'        => Helpers::untrailingslashit(SITE_URL) . $post->permalink,
+				'raw_date'         => $post->raw_date,
+				'change_frequency' => 'daily',
+				'priority'         => '0.6'
+			);
+			$sitemap->add_item($item);
+		}
+		$sitemap->save();
+	}
 	
 	public function process_stylesheets() {
 		$cssFiles = Filesystem::list_directory(Helpers::untrailingslashit(THEMES_PATH) . ACTIVE_THEME . '/css');
@@ -137,6 +191,12 @@ class Markd {
 				Filesystem::write_file(PUBLISHED_PATH . '/images/' . basename($image), $js);
 			}
 		}
+	}
+
+	public function process_robotstxt() {
+		$file = Helpers::untrailingslashit(THEMES_PATH . ACTIVE_THEME . '/robots.txt');
+		$content = Filesystem::read_file($file);
+		Filesystem::write_file(PUBLISHED_PATH . '/robots.txt', $content);
 	}
 
 	public function process_feed($blogPosts) {
@@ -270,6 +330,35 @@ class Markd {
 		Filesystem::write_file($file, $this->get_buffer(), 'w');
 	}
 	
+	public function write_html_sitemap($contents) {
+		$blogPosts = $contents['blogPosts'];
+		$pages = $contents['pages'];
+		$file = PUBLISHED_PATH . '/sitemap.html';
+		$this->start_buffer();
+		Theme::locate_template('header');
+
+		$page = (object) array(
+			'content_type' => 'page',
+			'title'        => 'Home',
+			'permalink'    => '/'
+		);
+		Theme::locate_template('post-content', 'sitemap', $page);
+
+		foreach ($pages as $pageFile) {
+			$page = new Page($pageFile);
+			if (strpos($page->content_file, '404') === false) {
+				Theme::locate_template('post-content', 'sitemap', $page);
+			}
+		}
+
+		foreach($blogPosts as $content) {
+			Theme::locate_template('post-content', 'sitemap', $content);
+		}
+
+		Theme::locate_template('footer', 'single');
+		Filesystem::write_file($file, $this->get_buffer(), 'w');
+	}
+
 	private function complete_process() {
 		global $filesWritten;
 		

@@ -21,7 +21,7 @@
 	</div> <!-- content -->
 
     <footer>
-      	<p>&copy; Matt Walters 2012 - <?php echo date('Y'); ?></p>
+      	<p>&copy; Matt Walters <?php echo date('Y'); ?> &#150; <a href="/sitemap.html">Sitemap</a></p>
 		<?php $hooks->execute_actions('markd_footer'); ?>
     </footer>
 

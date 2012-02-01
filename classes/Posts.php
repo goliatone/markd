@@ -33,6 +33,12 @@ class Posts {
 					}
 				}
 
+				if (isset($args['meta-only']) && $args['meta-only'] == true) {
+					unset($post->raw_content);
+					unset($post->html_content);
+					unset($post->heading);
+				}
+
 				if ($returnPost) {
 					$sortedPostListing[$post->date] = $postFile;	
 				}
@@ -47,6 +53,19 @@ class Posts {
 			if (!empty($postListing)) {
 				foreach ($sortedPostListing as $postFile) {
 					$post = new Post($postFile);
+
+					if (isset($args['file-data']) && $args['file-data'] == true) {
+						$post = (object) array(
+							'content_file' => $post->content_file,
+							'raw_date'     => $post->raw_date,
+							'published'    => $post->published,
+							'title'        => $post->title,
+							'date'         => $post->date,
+							'permalink'    => $post->permalink,
+							'format'       => $post->format
+						);
+					}
+
 					if ($post->published == 'true' && count($returnPostListing['blogPosts']) < $numberOfPosts) {
 						$returnPostListing['blogPosts'][] = $post;
 					}
