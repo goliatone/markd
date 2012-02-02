@@ -18,3 +18,4 @@ define('ACTIVE_THEME', '/default');                                             
 
 define('POSTS_PATH', CONTENT_PATH . '/posts');
 define('PAGES_PATH', CONTENT_PATH . '/pages');
+
