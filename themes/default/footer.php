@@ -8,6 +8,9 @@
 					<a target="_blank" href="/rss.xml"><img src="/images/rss_32.png" alt="RSS Feed for MattWalters.net" /></a>
 				</div>
 				<?php $hooks->execute_actions('markd_sidebar'); ?>
+				<br/>
+				<br/>
+				<center><a href="http://db.tt/vIzxb0uf" title="Sign up for a free dropbox account"><img src="/images/sm-banner-dropbox.png" alt="Free Dropbox Account" /></a></center>
 			</div> <!-- span4 -->
 		</div> <!-- row -->
 		<div class="row">
