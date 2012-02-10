@@ -3,7 +3,7 @@
 // Paths and URL's should not have trailing slashes
 
 date_default_timezone_set('America/New_York');										// Timezone
-define('CONTENT_PATH', '/path/to/your/markdown/posts');                               // Path to where your MarkDown posts are at
+define('CONTENT_PATH', '/path/to/your/markdown/posts');								// Path to where your MarkDown posts are at
 define('PUBLISHED_PATH', '/path/to/where/you/want/the/site/published');             // Path to where generated files should be placed
 define('THEMES_PATH', '/path/to/themes');                                           // Path to themes
 define('PLUGINS_PATH', '/path/to/plugins');                                         // Path to plugins
