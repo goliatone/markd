@@ -21,11 +21,11 @@ function msw_add_jotform_contact() {
 	$jotformId = $themeReplacements['{{jotform_id}}'];
 
 	$jotformContent = '
-		<script src="http://www.jotform.com/min/g=feedback" type="text/javascript">
+		<script src="http://www.jotform.us/min/g=feedback" type="text/javascript">
 		  new JotformFeedback({
 		     formId		: "' . $jotformId . '",
 		     buttonText	: "Contact Me",
-		     base		: "http://www.jotform.com/",
+		     base		: "http://www.jotform.us/",
 		     background	: "#0064CD",
 		     fontColor	: "#FFFFFF",
 		     buttonSide	: "right",
