@@ -84,3 +84,7 @@ footer {
 .sitemap.type-page h2 {
 	margin-top: 0;
 }
+
+a:link, a:visited, a:hover, a:active {
+	outline: none;
+}
