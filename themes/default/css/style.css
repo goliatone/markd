@@ -12,10 +12,6 @@ body {
 	margin: -20px -20px 20px;
 }
 
-.container {
-	width: 820px;
-}
-
 .content {
   background-color: #fff;
   padding: 20px;
@@ -29,7 +25,7 @@ body {
 }
 
 .post-meta {
-	margin: -15px 0 20px;
+	margin: 5px 0 20px;
 	font-size: 11px;
 }
 
@@ -69,7 +65,9 @@ body {
 }
 
 footer {
-	border-top: none;
+    border-top: medium none;
+    color: #fff;
+    margin: 20px 0;
 }
 
 .format-link h2 {
@@ -87,4 +85,8 @@ footer {
 
 a:link, a:visited, a:hover, a:active {
 	outline: none;
+}
+
+.pagination li.next a {
+	border-left: 1px solid #ddd;
 }

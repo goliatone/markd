@@ -33,11 +33,18 @@
 
 <body>
 
-<div class="topbar">
-	<div class="fill">
+<div class="navbar navbar-fixed-top">
+	<div class="navbar-inner">
 		<div class="container">
+			<a data-target=".nav-collapse" data-toggle="collapse" class="btn btn-navbar">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</a>
 			<a class="brand" href="/"><?php echo SITE_TITLE; ?></a>
-			<?php echo Theme::get_nav(); ?>
+			<div class="nav-collapse">
+				<?php echo Theme::get_nav(); ?>
+			</div><!--/.nav-collapse -->
 		</div>
 	</div>
 </div>
@@ -45,4 +52,4 @@
 <div class="container">
 	<div class="content">
 		<div class="row">
-			<div class="span10">
+			<div class="span9">

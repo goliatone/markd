@@ -1,5 +1,5 @@
 			</div> <!-- span10 -->
-			<div class="span4">
+			<div class="span3">
 				<h3>Connect</h3>
 				<div class="side-buttons">
 					<a target="_blank" href="http://about.me/mattwalters"><img src="/images/me_32.png" alt="Matt Walters on about.me" /></a>
