@@ -1,6 +1,9 @@
+				<div class="pagination">
+					<?php if ($context != 'single') { Theme::get_pagination($currentPage); } ?>
+				</div>
 			</div> <!-- span10 -->
-			<div class="span3">
-				<h3>Connect</h3>
+			<div class="span2">
+				<h3 class="connect-header">Connect</h3>
 				<div class="side-buttons">
 					<a target="_blank" href="http://about.me/mattwalters"><img src="/images/me_32.png" alt="Matt Walters on about.me" /></a>
 					<a target="_blank" href="http://twitter.com/mwalters"><img src="/images/twitter_32.png" alt="Matt Walters on twitter" /></a>
@@ -11,15 +14,6 @@
 				<?php $hooks->execute_actions('markd_sidebar'); ?>
 			</div> <!-- span4 -->
 		</div> <!-- row -->
-		<div class="row">
-			<div class="span12">
-				<div class="pagination">
-					<?php if ($context != 'single') { Theme::get_pagination($currentPage); } ?>
-				</div>
-			</div>
-			<div class="span4"></div>
-		</div> <!-- row -->
-	</div> <!-- content -->
 
     <footer>
       	<p>&copy; Matt Walters <?php echo date('Y'); ?> &#150; <a href="/sitemap.html">Sitemap</a></p>
