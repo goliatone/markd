@@ -85,7 +85,7 @@ class Theme {
 		foreach ($nav as $k=>$v) {
 			if (!isset($v['published_file'])) {
 				$renderedNav .= '	<li class="dropdown">' . "\n";
-				$renderedNav .= '		<a data-toggle="dropdown" class="dropdown-toggle" href="#">' . $k . '</a>' . "\n";
+				$renderedNav .= '		<a data-toggle="dropdown" class="dropdown-toggle" href="#">' . $k . '<b class="caret"></b></a>' . "\n";
 				$renderedNav .= '		<ul class="dropdown-menu">' . "\n";
 				foreach ($v as $m=>$n) {
 					$renderedNav .= '			<li><a href="' . $n['published_file'] . '">' . $n['name'] . '</a></li>' . "\n";
