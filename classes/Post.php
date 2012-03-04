@@ -17,7 +17,7 @@ class Post extends Content {
 	}
 
 	private function set_permalink() {
-		$this->permalink = '/' . date('Y', $this->raw_date) . $this->permalink . "\n";
+		$this->permalink = '/' . date('Y', $this->raw_date) . '/' . date('m', $this->raw_date) . '/' . date('d', $this->raw_date) . $this->permalink . "\n";
 	}
 
 	private function process_post_type() {

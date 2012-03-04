@@ -286,9 +286,15 @@ class Markd {
 	public function write_single_post($content) {
 		$file = Helpers::sanitize_slug($content->title);
 		
-		$path = Helpers::trailingslashit(date('Y', $content->raw_date));
-		if (!file_exists(PUBLISHED_PATH . '/' . $path)) {
-			mkdir(PUBLISHED_PATH . '/' . $path, 0755);
+		$path = Helpers::trailingslashit(date('Y', $content->raw_date) . '/' . date('m', $content->raw_date) . '/' . date('d', $content->raw_date));
+		if (!file_exists(PUBLISHED_PATH . '/' . Helpers::trailingslashit(date('Y', $content->raw_date)))) {
+			mkdir(PUBLISHED_PATH . '/' . date('Y', $content->raw_date), 0755);
+		}
+		if (!file_exists(PUBLISHED_PATH . '/' . date('Y', $content->raw_date) . '/' . date('m', $content->raw_date))) {
+			mkdir(PUBLISHED_PATH . '/' . date('Y', $content->raw_date) . '/' . date('m', $content->raw_date), 0755);
+		}
+		if (!file_exists(PUBLISHED_PATH . '/' . date('Y', $content->raw_date) . '/' . date('m', $content->raw_date) . '/' . date('d', $content->raw_date))) {
+			mkdir(PUBLISHED_PATH . '/' . date('Y', $content->raw_date) . '/' . date('m', $content->raw_date) . '/' . date('d', $content->raw_date), 0755);
 		}
 
 		$file = PUBLISHED_PATH . '/' . $path . $file . '.html';
