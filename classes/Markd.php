@@ -212,7 +212,7 @@ class Markd {
 				$item = (object) array(
 					'id'           => $blogPost->id,
 					'title'        => $blogPost->title,
-					'link'         => SITE_URL . '/' . date('Y', $blogPost->raw_date) . '/' . Helpers::sanitize_slug($blogPost->title) . '.html',
+					'link'         => SITE_URL . '/' . date('Y', $blogPost->raw_date) . '/' . date('m', $blogPost->raw_date)  . '/' . date('d', $blogPost->raw_date)  . '/' . Helpers::sanitize_slug($blogPost->title) . '.html',
 					'pubDate'      => $blogPost->date,
 					'html_content' => $blogPost->html_content
 				);
