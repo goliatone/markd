@@ -89,3 +89,10 @@ a:link, a:visited, a:hover, a:active {
 		display: none;
 	}
 }
+
+@media (min-width: 1200px) {
+	.container-fluid {
+		max-width: 1400px;
+		margin: 0 auto;
+	}
+}
