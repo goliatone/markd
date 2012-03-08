@@ -65,6 +65,7 @@ class Helpers {
 		$filteredString = trim($toFilterString);
 		$filteredString = str_replace(' ', '-', $filteredString);
 		$filteredString = str_replace('?', '', $filteredString);
+		$filteredString = str_replace(',', '', $filteredString);
 		$filteredString = strtolower($filteredString);
 		return $filteredString;
 	}
