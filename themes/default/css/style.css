@@ -88,6 +88,9 @@ a:link, a:visited, a:hover, a:active {
 	.jotform-feedback-link {
 		display: none;
 	}
+	.post-content img {
+		max-width: 240px;
+	}
 }
 
 @media (min-width: 1200px) {
