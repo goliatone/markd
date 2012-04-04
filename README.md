@@ -1,4 +1,4 @@
-# Overview
+# Overview [![image](https://github.com/dcurtis/markdown-mark/raw/master/png/32x20-solid.png)](http://daringfireball.net/projects/markdown/)
 ### What It Does 
 The purpose of markd is to produce a static website and/or blog based off of a hierarchical structure of Markdown syntax files.
 
