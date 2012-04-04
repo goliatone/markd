@@ -2,7 +2,7 @@
 					<?php if ($context != 'single') { Theme::get_pagination($currentPage); } ?>
 				</div>
 			</div> <!-- span10 -->
-			<div class="span2">
+			<div class="span3">
 				<h3 class="connect-header">Connect</h3>
 				<div class="side-buttons">
 					<a target="_blank" href="http://about.me/mattwalters"><img src="/images/me_32.png" alt="Matt Walters on about.me" /></a>
