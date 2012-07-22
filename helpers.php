@@ -62,11 +62,12 @@ class Helpers {
 	}
 	
 	public static function sanitize_slug($toFilterString) {
-		$filteredString = trim($toFilterString);
-		$filteredString = str_replace(' ', '-', $filteredString);
-		$filteredString = str_replace('?', '', $filteredString);
-		$filteredString = str_replace(',', '', $filteredString);
+		$filteredString = preg_replace('~[^\\pL0-9_]+~u', '-', $toFilterString);
+		$filteredString = trim($filteredString, "-");
+		$filteredString = iconv("utf-8", "us-ascii//TRANSLIT", $filteredString);
 		$filteredString = strtolower($filteredString);
+		$filteredString = preg_replace('~[^-a-z0-9_]+~', '', $filteredString);
+
 		return $filteredString;
 	}
 	

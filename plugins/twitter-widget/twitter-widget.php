@@ -49,4 +49,4 @@ function msw_add_twitter_widget() {
 	
 }
 
-$hooks->add_action('markd_sidebar', 'msw_add_twitter_widget');
+//$hooks->add_action('markd_sidebar', 'msw_add_twitter_widget');
